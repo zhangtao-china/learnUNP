@@ -29,6 +29,11 @@ int main(int argc, char **argv)
 
     Listen(listenfd, LISTENQ);
 
+/*
+存在的问题：
+在子进程终止后，父进程未捕获SIGCHLD信号，而该信号默认行为是被忽略。由于父进程未加处理，
+于是子进程进入僵死状态。僵死进程占用内核空间，最终可能会导致耗尽进程资源。因此必须清理它们
+*/
     for(;;)
     {
         clilen = sizeof(cliaddr);

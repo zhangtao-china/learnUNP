@@ -31,6 +31,9 @@ int main(int argc, char **argv)
 
     Listen(listenfd, LISTENQ);
 
+/*
+捕获SIGCHLD信号，处理僵死进程。
+*/
     Signal(SIGCHLD, sig_chld);
 
     for(;;)
@@ -87,6 +90,13 @@ void sig_chld(int signo)
     pid_t pid;
     int stat;
 
+/*
+可以使用wait和waitpid来处理已终止的子进程。
+正确的方法是使用waitpid而不是wait。wait的问题在于，如果有多个子进程终止，那么在信号处理函数执行之前将产生多个
+信号，而信号函数只能执行一次，如果在循环中调用wait则没有办法防止wait在正运行的子进程尚未有终止时阻塞。
+使用waitpid函数可解决此问题，第一个参数填-1表示等待第一个终止的子进程，第三个参数填WNOHANG，他告知内核在没有已终止
+子进程时不要阻塞。
+*/
     while((pid = waitpid(-1, &stat, WNOHANG)) > 0)
     {
         printf("child %d terminated\n", pid);
