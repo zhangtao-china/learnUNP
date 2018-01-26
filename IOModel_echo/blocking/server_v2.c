@@ -32,6 +32,7 @@ int main(int argc, char **argv)
     Listen(listenfd, LISTENQ);
 
 /*
+解决上一版本中未处理僵死进程的问题。
 捕获SIGCHLD信号，处理僵死进程。
 */
     Signal(SIGCHLD, sig_chld);
