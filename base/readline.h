@@ -1,6 +1,9 @@
 #ifndef READ_LINE_H
 #define READ_LINE_H
 
+#include <stddef.h>
+#include <sys/types.h>
+
 #if 0
 #include <stddef.h>
 #include "commondef.h"
@@ -19,5 +22,7 @@ void readline_rinit(int, void *, size_t, Rline *);
 ssize_t	readline_r(Rline *);
 
 #endif
+
+ssize_t readline(int fd, void *vptr, size_t maxlen);
 
 #endif

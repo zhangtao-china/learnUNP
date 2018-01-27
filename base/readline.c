@@ -5,7 +5,7 @@
 #include "readline.h"
 #include "commondef.h"
 #include "wrapthread.h"
-
+#include "error.h"
 
 static ssize_t
 my_read(int fd, char *ptr)
@@ -27,8 +27,7 @@ my_read(int fd, char *ptr)
 	return(1);
 }
 
-ssize_t
-readline(int fd, void *vptr, size_t maxlen)
+ssize_t readline(int fd, void *vptr, size_t maxlen)
 {
 	int		n, rc;
 	char	c, *ptr;
@@ -50,7 +49,7 @@ readline(int fd, void *vptr, size_t maxlen)
 	return(n);
 }
 /* end readline */
-
+/*
 ssize_t
 Readline(int fd, void *ptr, size_t maxlen)
 {
@@ -60,3 +59,4 @@ Readline(int fd, void *ptr, size_t maxlen)
 		err_sys("readline error");
 	return(n);
 }
+*/

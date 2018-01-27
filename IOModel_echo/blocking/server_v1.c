@@ -65,6 +65,7 @@ again:
 
     if(n < 0 && errno == EINTR)
     {
+        printf("[str_echo] errno = EINTR\n");
         goto again;
     }
     else
