@@ -1,9 +1,8 @@
 CC = gcc
 CFLAGS = -pipe -O2
-VPATH=../../base/:.
+VPATH = ../../base/:.
 BASEOBJS = error.o readline.o wrapio.o wrapsocket.o wrapunix.o
 OBJS = client_v1.o client_v2.o server_v1.o server_v2.o 
-TARGETS=client_v1 client_v2 server_v1 server_v2
 OBJSDIR = objs
 DISDIR = ./bin
 

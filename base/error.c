@@ -16,7 +16,7 @@ static void err_doit(int errnoflag, const char *fmt, va_list ap)
 	vsprintf(buf, fmt, ap);
 	if (errnoflag)
     {
-        sprintf(buf+strlen(buf), ": %s", strerror(errno_save));
+        sprintf(buf+strlen(buf), ", errno is %d, error message is: %s", errno_save, strerror(errno_save));
     }
 		
 	strcat(buf, "\n");

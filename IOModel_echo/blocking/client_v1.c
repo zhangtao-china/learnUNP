@@ -15,12 +15,23 @@ int main(int argc, char **argv)
 
     int sockfd = Socket(AF_INET, SOCK_STREAM, 0);
 
-    struct sockaddr_in servaddr;
+    char localstr[INET_ADDRSTRLEN];
+    struct sockaddr_in servaddr, localaddr;
+    socklen_t addrlen = sizeof(localaddr);
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(SERV_PORT);
     Inet_pton(AF_INET, argv[1], &servaddr.sin_addr.s_addr);
 
     Connect(sockfd, (sockaddr*)&servaddr, sizeof(servaddr));
+    
+    if(Getsockname(sockfd, (sockaddr *)&localaddr, &addrlen) == 0)
+    {
+        if(Inet_ntop(AF_INET, &localaddr.sin_addr, localstr, sizeof(localstr)) != NULL)
+        {
+            printf("[client_v1] local socket %s:%hu, connect to server: %s:%hu successfully.\n", 
+                    localstr, localaddr.sin_port, argv[1], SERV_PORT);
+        }
+    }
 
     str_cli(stdin, sockfd);
 
@@ -50,7 +61,7 @@ void str_cli(FILE *fp, int sockfd)
 
         if(Readline(sockfd, recvline, MAXLINE) == 0)
         {
-            err_quit("str_cli: server terminated prematurely");
+            err_quit("[client_v1] str_cli: server terminated prematurely");
         }
 
         Fputs(recvline, stdout);

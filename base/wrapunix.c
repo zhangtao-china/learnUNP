@@ -33,3 +33,28 @@ Sigfunc * Signal(int signo, Sigfunc *func)
 		
 	return(sigfunc);
 }
+
+int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
+       struct timeval *timeout)
+{
+	int	n;
+
+	if ( (n = select(nfds, readfds, writefds, exceptfds, timeout)) < 0)
+	{
+		err_sys("select error");
+	}
+
+	return(n);		/* can return 0 on timeout */
+}
+
+int	Poll(struct pollfd *fdarray, unsigned long nfds, int timeout)
+{
+	int	n;
+
+	if ( (n = poll(fdarray, nfds, timeout)) < 0)
+	{
+		err_sys("poll error");
+	}
+		
+	return n;
+}

@@ -17,6 +17,7 @@ int main(int argc, char **argv)
     pid_t childpid;
     socklen_t clilen;
     struct sockaddr_in cliaddr, servaddr;
+    char clistr[INET_ADDRSTRLEN];
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
@@ -47,6 +48,11 @@ int main(int argc, char **argv)
             exit(0);
         }
 
+        if(Inet_ntop(AF_INET, &cliaddr.sin_addr, clistr, sizeof(clistr)) != NULL)
+        {
+            printf("[server_v1] accepted client %s:%hu, start child process, pid is %d.\n", clistr, cliaddr.sin_port, childpid);
+        }
+
         Close(connfd);
     }
 }
@@ -65,11 +71,10 @@ again:
 
     if(n < 0 && errno == EINTR)
     {
-        printf("[str_echo] errno = EINTR\n");
         goto again;
     }
     else
     {
-        err_sys("str_echo: read error");
+        err_sys("[server_v2] str_echo: read error");
     }
 }

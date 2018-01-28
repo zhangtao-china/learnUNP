@@ -4,6 +4,7 @@
 #include "../../base/error.h"
 #include "../../base/commondef.h"
 #include "../../base/wrapio.h"
+#include "../../base/wrapunix.h"
 
 void str_cli(FILE *fp, int);
 
@@ -29,7 +30,7 @@ int main(int argc, char **argv)
     {
         if(Inet_ntop(AF_INET, &localaddr.sin_addr, localstr, sizeof(localstr)) != NULL)
         {
-            printf("[client_v2] local socket %s:%hu, connect to server: %s:%hu successfully.\n",
+            printf("[client_v3] local socket %s:%hu, connect to server: %s:%hu successfully.\n",
                     localstr, localaddr.sin_port, argv[1], SERV_PORT);
         }
     }
@@ -43,22 +44,39 @@ void str_cli(FILE *fp, int sockfd)
 {
     char sendline[MAXLINE], recvline[MAXLINE];
 
-/*
-此版本为解决v1版本中的第三个问题，即向收到RST的套接字执行写操作内核会给进程发送SIGPIPE信号导致进程终止。
-解决办法是对于一次发送调用两次write，第一次把文本行数据的第一个字节写入套接字，暂停一秒钟后，第二次把文本行
-中剩余字节写入套接字。目的是让第一次write引发RST，再让第二个write产生SIGPIPE
-*/
-    while(Fgets(sendline, MAXLINE, fp) != NULL)
+    int n = 0;
+    int isfd = fileno(fp);
+    int maxfd = isfd > sockfd ? fileno(fp) + 1 : sockfd + 1;
+    fd_set rdset;
+    for(;;)
     {
-        Writen(sockfd, sendline, 1);
-        sleep(1);
-        Writen(sockfd, sendline + 1, strlen(sendline) - 1);
+        FD_ZERO(&rdset);
+        FD_SET(sockfd, &rdset);
+        FD_SET(isfd, &rdset);
 
-        if(Readline(sockfd, recvline, MAXLINE) == 0)
+        Select(maxfd, &rdset, NULL, NULL, NULL);
+
+        if(FD_ISSET(isfd, &rdset))
         {
-            err_quit("[client_v2] str_cli: server terminated prematurely");
+            if(Fgets(sendline, MAXLINE, fp) == NULL)
+            {
+                return;
+            }
+            Writen(sockfd, sendline, strlen(sendline));
         }
 
-        Fputs(recvline, stdout);
+        if(FD_ISSET(sockfd, &rdset))
+        {
+            /*
+             * 问题:
+             * 对于批量输入, 很可能还有请求在去往服务器的路上, 或仍有应答在返回客户的路上
+            */
+            if( (n = Readline(sockfd, recvline, MAXLINE)) == 0)
+            {
+                err_quit("[client_v3] str_cli: server terminated prematurely");
+            }
+
+            Fputs(recvline, stdout);
+        }
     }
 }

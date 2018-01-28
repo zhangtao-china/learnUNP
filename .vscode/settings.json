@@ -38,7 +38,12 @@
         "commondef.h": "c",
         "wrapthread.h": "c",
         "wrapio.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "wrapunix.h": "c",
+        "types.h": "c",
+        "select.h": "c",
+        "limits.h": "c",
+        "climits": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

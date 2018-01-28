@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 
+ssize_t Read(int, void *, size_t);
+
+void Write(int, void *, size_t);
+
 char* Fgets(char *ptr, int n, FILE *stream);
 
 void Fputs(const char *ptr, FILE *stream);

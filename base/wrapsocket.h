@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#define SERV_PORT 9877
+#define SERV_PORT ((uint16_t)9877)
 #define LISTENQ 5
 
 typedef struct sockaddr sockaddr;
@@ -23,5 +23,14 @@ void Listen(int, int);
 int	Accept(int, sockaddr *, socklen_t *);
 
 void Inet_pton(int, const char *, void *);
+
+const char *Inet_ntop(int, const void *, char *, size_t);
+
+int Sockfd_to_family(int sockfd);
+
+int Getpeername(int, sockaddr *, socklen_t *);
+int Getsockname(int, sockaddr *, socklen_t *);
+
+void Shutdown(int, int);
 
 #endif
