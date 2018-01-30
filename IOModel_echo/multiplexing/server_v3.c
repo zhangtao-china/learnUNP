@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     char buf[MAXLINE];
     socklen_t clilen;
     struct sockaddr_in cliaddr, servaddr;
-    char clistr[INET_ADDRSTRLEN];
+    char clistr[SOCKADDR_STR_BUF_LEN];
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
@@ -59,9 +59,9 @@ int main(int argc, char **argv)
             clilen = sizeof(cliaddr);
             connfd = Accept(listenfd, (sockaddr*)&cliaddr, &clilen);
 
-            if(Inet_ntop(AF_INET, &cliaddr.sin_addr, clistr, sizeof(clistr)) != NULL)
+            if(sock_ntop((sockaddr *)&cliaddr, clilen, clistr, sizeof(clistr)) != NULL)
             {
-                printf("[server_v3] accepted client %s:%hu.\n", clistr, cliaddr.sin_port);
+                printf("[server_v3] accepted client %s.\n", clistr);
             }
 
             for(i = 0; i < FD_SETSIZE; i++)
@@ -100,9 +100,9 @@ int main(int argc, char **argv)
                 {
                     clilen = sizeof(cliaddr);
                     Getpeername(sockfd, (sockaddr *)&cliaddr, &clilen);
-                    if(Inet_ntop(AF_INET, &cliaddr.sin_addr, clistr, sizeof(clistr)) != NULL)
+                    if(sock_ntop((sockaddr *)&cliaddr, clilen, clistr, sizeof(clistr)) != NULL)
                     {
-                        printf("[server_v3] connecton %s:%hu closed by client.\n", clistr, cliaddr.sin_port);
+                        printf("[server_v3] connecton %s closed by client.\n", clistr);
                     }
 
                     Close(sockfd);

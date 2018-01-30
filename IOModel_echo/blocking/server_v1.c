@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     pid_t childpid;
     socklen_t clilen;
     struct sockaddr_in cliaddr, servaddr;
-    char clistr[INET_ADDRSTRLEN];
+    char clistr[SOCKADDR_STR_BUF_LEN];
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
@@ -48,9 +48,9 @@ int main(int argc, char **argv)
             exit(0);
         }
 
-        if(Inet_ntop(AF_INET, &cliaddr.sin_addr, clistr, sizeof(clistr)) != NULL)
+        if(sock_ntop((sockaddr *)&cliaddr, clilen, clistr, sizeof(clistr)) != NULL)
         {
-            printf("[server_v1] accepted client %s:%hu, start child process, pid is %d.\n", clistr, cliaddr.sin_port, childpid);
+            printf("[server_v1] accepted client %s, start child process, pid is %d.\n", clistr, childpid);
         }
 
         Close(connfd);
@@ -75,6 +75,6 @@ again:
     }
     else
     {
-        err_sys("[server_v2] str_echo: read error");
+        err_sys("[server_v1] str_echo: read error");
     }
 }

@@ -6,9 +6,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include "commondef.h"
 
-#define SERV_PORT ((uint16_t)9877)
-#define LISTENQ 5
 
 typedef struct sockaddr sockaddr;
 
@@ -25,6 +24,8 @@ int	Accept(int, sockaddr *, socklen_t *);
 void Inet_pton(int, const char *, void *);
 
 const char *Inet_ntop(int, const void *, char *, size_t);
+
+char *sock_ntop(const sockaddr *, socklen_t, char *, size_t);
 
 int Sockfd_to_family(int sockfd);
 

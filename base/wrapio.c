@@ -54,7 +54,27 @@ ssize_t Readline(int fd, void *ptr, size_t maxlen)
 	ssize_t	n;
 
 	if ( (n = readline(fd, ptr, maxlen)) < 0)
+	{
 		err_sys("readline error");
-	return(n);
+	}
+		
+	return n;
 }
 
+ssize_t Recvfrom(int sockfd, void *buff, size_t nbytes, int flags, sockaddr *addr, socklen_t *addrlen)
+{
+	int n;
+	if( (n = recvfrom(sockfd, buff, nbytes, flags, addr, addrlen)) < 0)
+	{
+		err_sys("recvfrom error");
+	}
+}
+
+void Sendto(int sockfd, void *buff, size_t nbytes, int flags, const sockaddr *addr, socklen_t addrlen)
+{
+	int n;
+	if( (n = sendto(sockfd, buff, nbytes, flags, addr, addrlen)) != nbytes)
+	{
+		err_sys("sendto error");
+	}
+}

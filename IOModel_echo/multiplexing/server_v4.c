@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     socklen_t clilen;
     struct pollfd client[max_open];
     struct sockaddr_in cliaddr, servaddr;
-    char clistr[INET_ADDRSTRLEN];
+    char clistr[SOCKADDR_STR_BUF_LEN];
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
@@ -68,9 +68,9 @@ int main(int argc, char **argv)
             clilen = sizeof(cliaddr);
             connfd = Accept(listenfd, (sockaddr*)&cliaddr, &clilen);
 
-            if(Inet_ntop(AF_INET, &cliaddr.sin_addr, clistr, sizeof(clistr)) != NULL)
+            if(sock_ntop((sockaddr *)&cliaddr, clilen, clistr, sizeof(clistr)) != NULL)
             {
-                printf("[server_v4] accepted client %s:%hu.\n", clistr, cliaddr.sin_port);
+                printf("[server_v4] accepted client %s.\n", clistr);
             }
 
             for(i = 1; i < max_open; i++)
@@ -108,9 +108,9 @@ int main(int argc, char **argv)
                     {
                         clilen = sizeof(cliaddr);
                         Getpeername(sockfd, (sockaddr *)&cliaddr, &clilen);
-                        if(Inet_ntop(AF_INET, &cliaddr.sin_addr, clistr, sizeof(clistr)) != NULL)
+                        if(sock_ntop((sockaddr *)&cliaddr, clilen, clistr, sizeof(clistr)) != NULL)
                         {
-                            printf("[server_v4] connection %s:%hu reset by client.\n", clistr, cliaddr.sin_port);
+                            printf("[server_v4] connection %s reset by client.\n", clistr);
                         }
 
                         Close(sockfd);
@@ -125,9 +125,9 @@ int main(int argc, char **argv)
                 {
                     clilen = sizeof(cliaddr);
                     Getpeername(sockfd, (sockaddr *)&cliaddr, &clilen);
-                    if(Inet_ntop(AF_INET, &cliaddr.sin_addr, clistr, sizeof(clistr)) != NULL)
+                    if(sock_ntop((sockaddr *)&cliaddr, clilen, clistr, sizeof(clistr)) != NULL)
                     {
-                        printf("[server_v4] connection %s:%hu closed by client.\n", clistr, cliaddr.sin_port);
+                        printf("[server_v4] connection %s closed by client.\n", clistr);
                     }
 
                     Close(sockfd);
