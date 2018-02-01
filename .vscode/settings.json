@@ -43,7 +43,9 @@
         "types.h": "c",
         "select.h": "c",
         "limits.h": "c",
-        "climits": "c"
+        "climits": "c",
+        "socket.h": "c",
+        "sockios.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }
