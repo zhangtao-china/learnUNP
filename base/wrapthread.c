@@ -1,4 +1,6 @@
 #include <errno.h>
+#include <signal.h>
+#include <pthread.h>
 #include "wrapthread.h"
 #include "error.h"
 
@@ -38,7 +40,7 @@ Pthread_detach(pthread_t tid)
 void
 Pthread_kill(pthread_t tid, int signo)
 {
-	int		n;
+	int	n;
 
 	if ( (n = pthread_kill(tid, signo)) == 0)
 		return;

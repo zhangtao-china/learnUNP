@@ -6,7 +6,9 @@ OBJS = client_v1.o client_v2.o server_v1.o server_v2.o
 OBJSDIR = objs
 DISDIR = ./bin
 
+#all是一个伪目标, 伪目标的特性是总是被执行的
 all:client_v1 client_v2 server_v1 server_v2
+# 为了避免和文件重名,使用.PHONY指定all是一个伪目标,向make说明,不管是否有这个文件,all就是一个伪目标
 .PHONY : all
 
 ####################################
