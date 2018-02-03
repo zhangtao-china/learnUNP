@@ -2,6 +2,7 @@
 #define WRAP_UNIX_H
 
 #include <unistd.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/select.h>

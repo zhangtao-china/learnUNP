@@ -32,6 +32,10 @@ int Sockfd_to_family(int sockfd);
 int Getpeername(int, sockaddr *, socklen_t *);
 int Getsockname(int, sockaddr *, socklen_t *);
 
+void Getsockopt(int, int, int, void *, socklen_t *);
+
+void Setsockopt(int, int, int, const void *, socklen_t);
+
 void Shutdown(int, int);
 
 #endif

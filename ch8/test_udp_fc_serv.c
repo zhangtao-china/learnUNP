@@ -1,8 +1,10 @@
 #include <strings.h>
+#include <stdlib.h>
 #include "../base/wrapsocket.h"
 #include "../base/wrapio.h"
 #include "../base/error.h"
 #include "../base/commondef.h"
+#include "../base/wrapunix.h"
 
 void dg_echo(int sockfd, sockaddr *pcliaddr, socklen_t clilen);
 
@@ -23,23 +25,27 @@ int main(int argc, char **argv)
     dg_echo(sockfd, (sockaddr *)&cliaddr, sizeof(cliaddr));
 }
 
+static void recvfrom_int(int);
+static int count = 0;
 void dg_echo(int sockfd, sockaddr *pcliaddr, socklen_t clilen)
 {
     int n;
     socklen_t len;
     char msg[MAXLINE];
-    char strcli[SOCKADDR_STR_BUF_LEN];
+
+    Signal(SIGINT, recvfrom_int);
 
     for(;;)
     {
         len = clilen;
-        n = Recvfrom(sockfd, msg, MAXLINE, 0, pcliaddr, &len);
+        Recvfrom(sockfd, msg, MAXLINE, 0, pcliaddr, &len);
 
-        if(sock_ntop(pcliaddr, len, strcli, sizeof(strcli)))
-        {
-            printf("[server_udp_v1] receive message from %s\n", strcli);
-        }
-
-        Sendto(sockfd, msg, n, 0, pcliaddr, len);
+        count++;
     }
+}
+
+static void recvfrom_int(int signo)
+{
+    printf("\nreceived %d datagrams\n", count);
+    exit(0);
 }

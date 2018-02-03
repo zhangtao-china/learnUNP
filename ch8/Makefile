@@ -24,8 +24,18 @@ client_udp_v1:%:%.o $(COMDEP)
 client_udp_v2:%:%.o $(COMDEP)
 	$(CC) $(CFLAGS) $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $^)) -o $(DISDIR)/$@
 
+client_udp_v3:%:%.o $(COMDEP)
+	$(CC) $(CFLAGS) $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $^)) -o $(DISDIR)/$@
+
 server_udp_v1:%:%.o $(COMDEP)
 	$(CC) $(CFLAGS) $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $^)) -o $(DISDIR)/$@
+
+test_udp_fc_cli:%:%.o $(COMDEP)
+	$(CC) $(CFLAGS) $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $^)) -o $(DISDIR)/$@
+
+test_udp_fc_serv:%:%.o $(COMDEP)
+	$(CC) $(CFLAGS) $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $^)) -o $(DISDIR)/$@
+	
 
 $(BASEOBJS) $(OBJS):%.o:%.c $(OBJSDIR)
 	$(CC) -c $(CFLAGS) $< -o $(OBJSDIR)/$@
