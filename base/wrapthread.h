@@ -1,8 +1,6 @@
-/* Our own header for the programs that use threads.
-   Include this file, instead of "unp.h". */
 
-#ifndef	__UNP_PTHREAD_H
-#define	__UNP_PTHREAD_H
+#ifndef	WRAP_PTHREAD_H
+#define	WRAP_PTHREAD_H
 
 #include <pthread.h>
 
@@ -28,4 +26,4 @@ void	Pthread_key_create(pthread_key_t *, void (*)(void *));
 void	Pthread_setspecific(pthread_key_t, const void *);
 void	Pthread_once(pthread_once_t *, void (*)(void));
 
-#endif	/* __UNP_PTHREAD_H */
+#endif	/* WRAP_PTHREAD_H */
