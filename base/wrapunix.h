@@ -17,6 +17,8 @@ typedef	void Sigfunc(int);
 
 Sigfunc * Signal(int, Sigfunc *);
 
+Sigfunc * Signal_act(int, Sigfunc *);
+
 int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
        struct timeval *timeout);
 

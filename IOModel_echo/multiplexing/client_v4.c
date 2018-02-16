@@ -23,11 +23,13 @@ int main(int argc, char **argv)
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(SERV_PORT);
     Inet_pton(AF_INET, argv[1], &servaddr.sin_addr.s_addr);
-
+/*
     Inet_pton(AF_INET, "192.168.145.128", &localaddr.sin_addr.s_addr); 
     localaddr.sin_port = 8888;
     localaddr.sin_family = AF_INET;
     Bind(sockfd, (sockaddr *)&localaddr, addrlen);
+*/
+
     Connect(sockfd, (sockaddr*)&servaddr, sizeof(servaddr));
     
     if(Getsockname(sockfd, (sockaddr *)&localaddr, &addrlen) == 0)

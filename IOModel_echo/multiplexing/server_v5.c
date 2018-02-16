@@ -67,7 +67,7 @@ int main(int argc, char **argv)
         FD_SET(listenfd, &rset);
         FD_SET(udpfd, &rset);
 
-        if((nready = Select(maxfdp1 + 1, &rset, NULL, NULL, NULL)) < 0)
+        if((nready = select(maxfdp1 + 1, &rset, NULL, NULL, NULL)) < 0)
         {
             if(errno == EINTR)
             {
@@ -106,7 +106,6 @@ int main(int argc, char **argv)
 
             Sendto(udpfd, mesg, n, 0, (sockaddr *)&cliaddr, len);
         }
-
     }
 }
 
@@ -114,6 +113,10 @@ void str_echo(int sockfd)
 {
     ssize_t n;
     char buf[MAXLINE];
+
+    struct sockaddr_storage cliaddr;
+    char clistr[SOCKADDR_STR_BUF_LEN];
+    socklen_t clilen;
 
 again:
     while((n = read(sockfd, buf, MAXLINE)) > 0)
@@ -124,6 +127,17 @@ again:
     if(n < 0 && errno == EINTR)
     {
         goto again;
+    }
+    else if(n == 0)
+    {
+        clilen = sizeof(cliaddr);
+        Getpeername(sockfd, (sockaddr *)&cliaddr, &clilen);
+        if(sock_ntop((sockaddr *)&cliaddr, clilen, clistr, sizeof(clistr)) != NULL)
+        {
+            printf("[server_v4] connection %s closed by client.\n", clistr);
+        }
+
+        Close(sockfd);
     }
     else
     {

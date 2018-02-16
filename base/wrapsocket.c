@@ -176,7 +176,7 @@ char *sock_ntop(const sockaddr *sa, socklen_t salen, char *strptr, size_t len)
 			
 		if (ntohs(sin->sin_port) != 0) 
         {
-			snprintf(portstr, sizeof(portstr), ":%d", ntohs(sin->sin_port));
+			snprintf(portstr, sizeof(portstr), ":%hu", ntohs(sin->sin_port));
 			strcat(str, portstr);
 		}
 
@@ -197,7 +197,7 @@ char *sock_ntop(const sockaddr *sa, socklen_t salen, char *strptr, size_t len)
 
 		if (ntohs(sin6->sin6_port) != 0)
         {
-			snprintf(portstr, sizeof(portstr), "]:%d", ntohs(sin6->sin6_port));
+			snprintf(portstr, sizeof(portstr), "]:%hu", ntohs(sin6->sin6_port));
 			strcat(str, portstr);
 		}
 

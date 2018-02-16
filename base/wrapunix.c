@@ -33,6 +33,34 @@ Sigfunc * Signal(int signo, Sigfunc *func)
 	return(sigfunc);
 }
 
+Sigfunc * Signal_act(int signo, Sigfunc * func)
+{
+	struct sigaction act, oact;
+
+	act.sa_handler = func;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = 0;
+	if(signo == SIGALRM)
+	{
+#ifdef SA_INTERRUPT
+		act.sa_flags |= SA_INTERRUPT;
+#endif
+	}
+	else
+	{
+#ifdef SA_SA_RESTART
+		act.sa_flags |= SA_RESTART;
+#endif
+	}
+
+	if(sigaction(signo, &act, &oact) < 0)
+	{
+		return SIG_ERR;
+	}
+
+	return oact.sa_handler;
+}
+
 int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
        struct timeval *timeout)
 {
@@ -43,7 +71,7 @@ int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 		err_sys("select error");
 	}
 
-	return(n);		/* can return 0 on timeout */
+	return n;		/* can return 0 on timeout */
 }
 
 int	Poll(struct pollfd *fdarray, unsigned long nfds, int timeout)

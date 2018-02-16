@@ -1,16 +1,26 @@
 CC = gcc
 CFLAGS = 
 VPATH = ../base
-OBJS = error.o wrapsocket.o hostent.o
+OBJS = error.o wrapsocket.o 
+APPOBJS = hostent.o namesearch.o
 OBJSDIR = objs
-TARGET = hostent
+TARGETS = hostent namesearch
 TARGETDIR = bin
 RM = rm -rf
 
-$(TARGET) : $(OBJS) $(TARGETDIR)
-	$(CC) $(CFLAGS) $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $^)) -o $(TARGETDIR)/$@
+.PHONY : all
+all : $(TARGETS)
+
+hostent : %:%.o $(OBJS) $(TARGETDIR)
+	$(CC) $(CFLAGS) $(OBJSDIR)/$@.o $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $(OBJS))) -o $(TARGETDIR)/$@
+
+namesearch : %:%.o $(OBJS) $(TARGETDIR)
+	$(CC) $(CFLAGS) $(OBJSDIR)/$@.o $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $(OBJS))) -o $(TARGETDIR)/$@
 
 $(OBJS) : %.o:%.c $(OBJSDIR)
+	$(CC) -c $(CFLAGS) $< -o $(OBJSDIR)/$@
+
+$(APPOBJS) : %.o:%.c $(OBJSDIR)
 	$(CC) -c $(CFLAGS) $< -o $(OBJSDIR)/$@
 
 $(OBJSDIR):
