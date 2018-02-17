@@ -46,7 +46,9 @@
         "climits": "c",
         "socket.h": "c",
         "sockios.h": "c",
-        "netdb.h": "c"
+        "netdb.h": "c",
+        "in.h": "c",
+        "un.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

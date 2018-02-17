@@ -7,4 +7,7 @@
 
 #define SOCKADDR_STR_BUF_LEN (128)
 
+#define	UNIXSTR_PATH	"/tmp/unix.str"	/* Unix domain stream cli-serv */
+#define	UNIXDG_PATH		"/tmp/unix.dg"	/* Unix domain datagram cli-serv */
+
 #endif
