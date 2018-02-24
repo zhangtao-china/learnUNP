@@ -48,7 +48,9 @@
         "sockios.h": "c",
         "netdb.h": "c",
         "in.h": "c",
-        "un.h": "c"
+        "un.h": "c",
+        "stdio.h": "c",
+        "web.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

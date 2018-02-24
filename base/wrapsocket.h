@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <netdb.h>
 #include "commondef.h"
 
 
@@ -37,5 +38,9 @@ void Getsockopt(int, int, int, void *, socklen_t *);
 void Setsockopt(int, int, int, const void *, socklen_t);
 
 void Shutdown(int, int);
+
+int tcp_connect(const char *host, const char * serv);
+
+struct addrinfo * host_serv(const char *host, const char *serv, int family, int socktype);
 
 #endif

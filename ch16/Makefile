@@ -1,19 +1,17 @@
 CC = gcc
 CFLAGS = -pipe -O2
-VPATH = ../../base/:.
-BASEOBJS = error.o wrapsocket.o wrapunix.o
-OBJS = client_v5.o
+VPATH = ../base/:.
+BASEOBJS = error.o wrapio.o wrapsocket.o wrapunix.o readline.o
+OBJS = web.o
 DISDIR = ./bin
-OBJSDIR = ${shell pwd}/objs
-
-all:client_v5
-.PHONY : all
+OBJSDIR = ./objs
+TARGET = web
 
 
-client_v5 : %:%.o $(OBJSDIR) $(DISDIR) $(BASEOBJS) 
-	$(CC) $(CFLAGS) $(BASEOBJS:%.o=$(OBJSDIR)/%.o) $(OBJSDIR)/$@.o -o $(DISDIR)/$@
+$(TARGET) : %:%.o $(BASEOBJS) $(DISDIR)
+	$(CC) $(CFLAGS) $(patsubst %.o, $(OBJSDIR)/%.o, $(filter %.o, $^)) -o $(DISDIR)/$@
 
-$(BASEOBJS) : %.o:%.c
+$(BASEOBJS) : %.o:%.c $(OBJSDIR)
 	$(CC) -c $(CFLAGS) $< -o $(OBJSDIR)/$@
 
 $(OBJS) : %.o:%.c $(OBJSDIR)

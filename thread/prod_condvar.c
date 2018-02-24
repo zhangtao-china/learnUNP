@@ -34,6 +34,8 @@ static void *thread_func(void *arg)
             errExit(s, "pthread_mutex_lock");
         }
 
+        printf("[thread]***************%ld****************get mutex lock\n", pthread_self());
+
         avail++;        /* Let consumer know another unit is available */
 
         s = pthread_mutex_unlock(&mtx);
@@ -41,6 +43,8 @@ static void *thread_func(void *arg)
         {
             errExit(s, "pthread_mutex_unlock");
         }
+
+        printf("[thread]***************%ld****************unlock mutex\n", pthread_self());
 
         s = pthread_cond_signal(&cond);
         if(s != 0)
@@ -67,7 +71,8 @@ int main(int argc, char *argv[])
     /* Create all threads */
 
     totRequired = 0;
-    for (j = 1; j < argc; j++) {
+    for (j = 1; j < argc; j++) 
+    {
         totRequired += atoi(argv[j]);
 
         s = pthread_create(&tid, NULL, thread_func, argv[j]);
@@ -85,6 +90,7 @@ int main(int argc, char *argv[])
     for (;;) 
     {
         s = pthread_mutex_lock(&mtx);
+        printf("[main]----------------------------get mutex lock\n");
         if (s != 0)
         {
             errExit(s, "pthread_mutex_lock");
@@ -99,7 +105,18 @@ int main(int argc, char *argv[])
 */
         while(avail == 0)
         {
+/*
+    pthread_cond_wait
+    1. 线程在检查共享变量状态时锁定互斥量
+    2. 检查共享变量的状态
+    3. 如果共享变量未处于预期状态，线程应该在等待条件变量并进入休眠前解锁互斥量，以便其他线程能访问该互斥量
+    4. 当线程因为条件变量的通知而再度被唤醒时，必须对互斥量再次加锁，因为在典型情况下，线程会立即访问共享变量
+
+    ☆☆☆ pthread_cond_wait会自动最后两步中对互斥量的解锁和加锁动作
+*/
+            printf("[main]----------------------------call pthread_cond_wait\n");
             s = pthread_cond_wait(&cond, &mtx);
+            printf("[main]----------------------------pthread_cond_wait returned\n");
             if(s != 0)
             {
                 errExit(s, "pthread_cond_wait");
@@ -122,6 +139,7 @@ int main(int argc, char *argv[])
         {
             errExit(s, "pthread_mutex_unlock");
         }
+        printf("[main]----------------------------unlock mutex\n");
 
         if (done)
             break;

@@ -85,3 +85,15 @@ int	Poll(struct pollfd *fdarray, unsigned long nfds, int timeout)
 		
 	return n;
 }
+
+int Fcntl(int fd, int cmd, int arg)
+{
+	int	n;
+
+	if ( (n = fcntl(fd, cmd, arg)) == -1)
+	{
+		err_sys("fcntl error");
+	}
+		
+	return(n);
+}

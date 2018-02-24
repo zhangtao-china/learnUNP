@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include <signal.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/select.h>
@@ -23,5 +24,7 @@ int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
        struct timeval *timeout);
 
 int	Poll(struct pollfd *, unsigned long, int);
+
+int Fcntl(int fd, int cmd, int arg);
 
 #endif
