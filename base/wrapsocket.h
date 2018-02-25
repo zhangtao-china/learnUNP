@@ -26,7 +26,9 @@ void Inet_pton(int, const char *, void *);
 
 const char *Inet_ntop(int, const void *, char *, size_t);
 
-char *sock_ntop(const sockaddr *, socklen_t, char *, size_t);
+char * sock_ntop(const sockaddr *, socklen_t, char *, size_t);
+
+char * sock_ntop_host(const struct sockaddr *, socklen_t);
 
 int Sockfd_to_family(int sockfd);
 
