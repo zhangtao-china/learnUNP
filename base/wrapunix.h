@@ -20,6 +20,20 @@ typedef	void Sigfunc(int);
 
 Sigfunc * Signal(int, Sigfunc *);
 
+void Sigemptyset(sigset_t *);
+
+void Sigaddset(sigset_t *, int);
+
+void Sigdelset(sigset_t *set, int signo);
+
+void Sigfillset(sigset_t *);
+
+int Sigismember(const sigset_t *, int);
+
+void Sigpending(sigset_t *);
+
+void Sigprocmask(int , const sigset_t *, sigset_t *);
+
 Sigfunc * Signal_act(int, Sigfunc *);
 
 int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
@@ -34,5 +48,7 @@ int Ioctl(int, int, void *);
 void * Malloc(size_t);
 
 void *Calloc(size_t, size_t);
+
+void Pipe(int *);
 
 #endif

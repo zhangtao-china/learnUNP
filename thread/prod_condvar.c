@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
     3. 如果共享变量未处于预期状态，线程应该在等待条件变量并进入休眠前解锁互斥量，以便其他线程能访问该互斥量
     4. 当线程因为条件变量的通知而再度被唤醒时，必须对互斥量再次加锁，因为在典型情况下，线程会立即访问共享变量
 
-    ☆☆☆ pthread_cond_wait会自动最后两步中对互斥量的解锁和加锁动作
+    ☆☆☆ pthread_cond_wait会自动做最后两步中对互斥量的解锁和加锁动作
 */
             printf("[main]----------------------------call pthread_cond_wait\n");
             s = pthread_cond_wait(&cond, &mtx);
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
                 errExit(s, "pthread_cond_wait");
             }
         }
-
+    
         while (avail > 0)              /* Consume all available units */
         {
             /* Do something with produced unit */

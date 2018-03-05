@@ -8,8 +8,6 @@
 #include "../../base/wrapio.h"
 #include "../../base/wrapunix.h"
 
-#define	max(a,b)  ((a) > (b) ? (a) : (b))
-
 void str_cli(FILE *fp, int);
 char* gf_time(void);
 

@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
         {
             /* Do something with produced unit */
 
-            numConsumed ++;
+            numConsumed++;
             avail--;
             printf("T=%ld: numConsumed=%d\n", (long) (time(NULL) - t),
                     numConsumed);

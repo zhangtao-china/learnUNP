@@ -10,4 +10,6 @@
 #define	UNIXSTR_PATH	"/tmp/unix.str"	/* Unix domain stream cli-serv */
 #define	UNIXDG_PATH		"/tmp/unix.dg"	/* Unix domain datagram cli-serv */
 
+#define max(a, b)  ((a) > (b) ? (a) : (b))
+
 #endif

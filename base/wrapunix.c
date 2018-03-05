@@ -62,6 +62,22 @@ Sigfunc * Signal_act(int signo, Sigfunc * func)
 	return oact.sa_handler;
 }
 
+void Sigemptyset(sigset_t *set)
+{
+	if (sigemptyset(set) == -1)
+	{
+		err_sys("sigemptyset error");
+	}
+}
+
+void Sigaddset(sigset_t *set, int signo)
+{
+	if (sigaddset(set, signo) == -1)
+	{
+		err_sys("sigaddset error");
+	}
+}
+
 int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
        struct timeval *timeout)
 {
@@ -73,6 +89,50 @@ int Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 	}
 
 	return n;		/* can return 0 on timeout */
+}
+
+void Sigdelset(sigset_t *set, int signo)
+{
+	if (sigdelset(set, signo) == -1)
+	{
+		err_sys("sigdelset error");
+	}
+}
+
+void Sigfillset(sigset_t *set)
+{
+	if (sigfillset(set) == -1)
+	{
+		err_sys("sigfillset error");
+	}
+}
+
+int Sigismember(const sigset_t *set, int signo)
+{
+	int	n;
+
+	if ( (n = sigismember(set, signo)) == -1)
+	{
+		err_sys("sigismember error");
+	}
+		
+	return n;
+}
+
+void Sigpending(sigset_t *set)
+{
+	if (sigpending(set) == -1)
+	{
+		err_sys("sigpending error");
+	}
+}
+
+void Sigprocmask(int how, const sigset_t *set, sigset_t *oset)
+{
+	if (sigprocmask(how, set, oset) == -1)
+	{
+		err_sys("sigprocmask error");
+	}
 }
 
 int	Poll(struct pollfd *fdarray, unsigned long nfds, int timeout)
@@ -133,4 +193,13 @@ int Ioctl(int fd, int request, void *arg)
 	}
 		
 	return n;	/* streamio of I_LIST returns value */
+}
+
+void Pipe(int *fds)
+{
+	if (pipe(fds) < 0)
+	{
+		err_sys("pipe error");
+	}
+		
 }
