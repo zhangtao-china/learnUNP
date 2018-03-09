@@ -201,5 +201,12 @@ void Pipe(int *fds)
 	{
 		err_sys("pipe error");
 	}
-		
+}
+
+void Gettimeofday(struct timeval *tv, struct timezone *tz)
+{
+	if (gettimeofday(tv, tz) == -1)
+	{
+		err_sys("gettimeofday error");
+	}
 }

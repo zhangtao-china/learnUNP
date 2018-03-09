@@ -50,7 +50,8 @@
         "in.h": "c",
         "un.h": "c",
         "stdio.h": "c",
-        "web.h": "c"
+        "web.h": "c",
+        "rtt.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

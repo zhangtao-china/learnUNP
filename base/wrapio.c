@@ -109,3 +109,33 @@ void Sendto(int sockfd, void *buff, size_t nbytes, int flags, const sockaddr *ad
 		err_sys("sendto error");
 	}
 }
+
+ssize_t Recvmsg(int fd, struct msghdr *msg, int flags)
+{
+	ssize_t n;
+
+	if ( (n = recvmsg(fd, msg, flags)) < 0)
+	{
+		err_sys("recvmsg error");
+	}
+		
+	return n;
+}
+
+void
+Sendmsg(int fd, const struct msghdr *msg, int flags)
+{
+	unsigned int i;
+	ssize_t	nbytes;
+
+	nbytes = 0;	/* must first figure out what return value should be */
+	for (i = 0; i < msg->msg_iovlen; i++)
+	{
+		nbytes += msg->msg_iov[i].iov_len;
+	}
+
+	if (sendmsg(fd, msg, flags) != nbytes)
+	{
+		err_sys("sendmsg error");
+	}		
+}

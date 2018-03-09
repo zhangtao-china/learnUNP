@@ -20,4 +20,8 @@ ssize_t Recvfrom(int, void *, size_t, int , sockaddr *, socklen_t *);
 
 void Sendto(int, void *, size_t, int, const sockaddr *, socklen_t);
 
+ssize_t	Recvmsg(int, struct msghdr *, int);
+
+void Sendmsg(int, const struct msghdr *, int);
+
 #endif

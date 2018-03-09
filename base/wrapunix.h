@@ -51,4 +51,6 @@ void *Calloc(size_t, size_t);
 
 void Pipe(int *);
 
+void Gettimeofday(struct timeval *tv, struct timezone *tz);
+
 #endif

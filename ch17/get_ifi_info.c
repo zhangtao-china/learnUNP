@@ -7,7 +7,7 @@
 #include "../base/error.h"
 #include "../base/config.h"
 
-#define max(a, b)  ((a) > (b) ? (a) : (b))
+
 
 struct ifi_info * get_ifi_info(int family, int doaliases)
 {
