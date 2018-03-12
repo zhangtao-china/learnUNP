@@ -16,6 +16,10 @@ void Writen(int fd, void *ptr, size_t nbytes);
 
 ssize_t	Readline(int, void *, size_t);
 
+void Send(int, const void *, size_t, int);
+
+ssize_t	Recv(int, void *, size_t, int);
+
 ssize_t Recvfrom(int, void *, size_t, int , sockaddr *, socklen_t *);
 
 void Sendto(int, void *, size_t, int, const sockaddr *, socklen_t);

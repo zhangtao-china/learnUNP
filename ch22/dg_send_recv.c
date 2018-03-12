@@ -56,6 +56,7 @@ static ssize_t dg_send_recv(int fd, const void *outbuff, size_t outbytes,
 
 sendagain:
     sendhdr.ts = rtt_ts(&rttinfo);
+
     Sendmsg(fd, &msgsend, 0);
 
     alarm(rtt_start(&rttinfo));

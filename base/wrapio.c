@@ -122,8 +122,7 @@ ssize_t Recvmsg(int fd, struct msghdr *msg, int flags)
 	return n;
 }
 
-void
-Sendmsg(int fd, const struct msghdr *msg, int flags)
+void Sendmsg(int fd, const struct msghdr *msg, int flags)
 {
 	unsigned int i;
 	ssize_t	nbytes;
@@ -138,4 +137,26 @@ Sendmsg(int fd, const struct msghdr *msg, int flags)
 	{
 		err_sys("sendmsg error");
 	}		
+}
+
+
+void Send(int fd, const void *ptr, size_t nbytes, int flags)
+{
+	if (send(fd, ptr, nbytes, flags) != (ssize_t)nbytes)
+	{
+		err_sys("send error");
+	}
+		
+}
+
+ssize_t	Recv(int fd, void *ptr, size_t nbytes, int flags)
+{
+	ssize_t	n;
+
+	if ( (n = recv(fd, ptr, nbytes, flags)) < 0)
+	{
+		err_sys("recv error");
+	}
+		
+	return n;
 }

@@ -45,4 +45,6 @@ int tcp_connect(const char *host, const char * serv);
 
 struct addrinfo * host_serv(const char *host, const char *serv, int family, int socktype);
 
+int tcp_listen(const char *hostname, const char *service, socklen_t *addrlen);
+
 #endif
