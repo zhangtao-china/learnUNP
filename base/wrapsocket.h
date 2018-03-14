@@ -47,4 +47,6 @@ struct addrinfo * host_serv(const char *host, const char *serv, int family, int 
 
 int tcp_listen(const char *hostname, const char *service, socklen_t *addrlen);
 
+int	Sockatmark(int);
+
 #endif

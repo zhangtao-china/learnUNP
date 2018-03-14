@@ -460,3 +460,14 @@ char * sock_ntop_host(const struct sockaddr *sa, socklen_t salen)
     return (NULL);
 }
 
+int	Sockatmark(int fd)
+{
+    int n;
+
+	if ( (n = sockatmark(fd)) < 0)
+    {
+        err_sys("sockatmark error");
+    }
+		
+	return n;
+}
