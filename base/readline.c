@@ -8,6 +8,7 @@
 #include "error.h"
 #include "wrappthread.h"
 
+#ifdef THREAD_SAFE_RDLINE
 static pthread_key_t rl_key;
 static pthread_once_t rl_once = PTHREAD_ONCE_INIT;
 
@@ -99,7 +100,7 @@ ssize_t readline(int fd, void *vptr, size_t maxlen)
 	return n;
 }
 
-#if 0
+#else
 /*
 不是线程安全的
 */

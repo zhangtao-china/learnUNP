@@ -5,6 +5,7 @@
 #include "../../base/commondef.h"
 #include "../../base/wrapunix.h"
 
+
 /*
 对一个套接字使用信号驱动式I/O(SIGIO)要求进程执行以下3个步骤：
 1.建立SIGIO信号的信号处理函数
@@ -12,7 +13,6 @@
 3.开启该套接字的信号驱动式I/O，通常通过fcntl的F_SETFL命令打开O_ASYNC标志完成。
 O_ASYNC标志是相对较晚加到POSIX规范中的。通常还可使用ioctl的FIOASYNC请求代为开启信号驱动式I/O
 */
-
 
 #define QSIZE 8
 #define MAXDG 4096
