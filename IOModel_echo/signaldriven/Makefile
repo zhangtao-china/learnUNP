@@ -10,10 +10,7 @@ OBJSDIR = ./objs
 TARGET = dgecho
 RM = rm -rf
 
-
-
 COMDEP = $(BASEOBJS) $(DESDIR)
-
 
 
 $(TARGET) : $(OBJS) $(COMDEP)
