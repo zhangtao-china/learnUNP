@@ -2,12 +2,12 @@ CC = gcc
 CFLAGS = -pipe -O2
 VPATH = ../../base/:.
 BASEOBJS = error.o readline.o wrapio.o wrapsocket.o wrapunix.o
-OBJS = client_v3.o client_v4.o server_v3.o server_v4.o server_v5.o
+OBJS = client_v3.o client_v4.o server_v3.o server_v4.o server_v5.o server_v6.o
 DISDIR = ./bin
 
 export OBJSDIR = ${shell pwd}/objs
 
-all:client_v3 client_v4 server_v3 server_v4 server_v5
+all:client_v3 client_v4 server_v3 server_v4 server_v5 server_v6
 .PHONY : all
 
 
@@ -25,6 +25,9 @@ server_v4 : $(OBJSDIR) $(DISDIR) $(BASEOBJS)  server_v4.o
 
 server_v5 : $(OBJSDIR) $(DISDIR) $(BASEOBJS)  server_v5.o
 	$(CC) $(CFLAGS)  $(BASEOBJS:%.o=$(OBJSDIR)/%.o) $(OBJSDIR)/server_v5.o -o $(DISDIR)/server_v5
+
+server_v6 : $(OBJSDIR) $(DISDIR) $(BASEOBJS)  server_v6.o
+	$(CC) $(CFLAGS)  $(BASEOBJS:%.o=$(OBJSDIR)/%.o) $(OBJSDIR)/server_v6.o -o $(DISDIR)/server_v6
 
 $(BASEOBJS) : %.o:%.c
 	$(CC) -c $(CFLAGS) $< -o $(OBJSDIR)/$@

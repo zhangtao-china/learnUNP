@@ -6,6 +6,7 @@
 #include "wrapsocket.h"
 #include "error.h"
 #include "wrapunix.h"
+#include "config.h"
 
 int Socket(int family, int type, int protocol)
 {

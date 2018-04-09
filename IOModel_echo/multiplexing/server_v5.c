@@ -13,18 +13,6 @@
 void sig_chld(int signo);
 void str_echo(int sockfd);
 
-int max(int lhs, int rhs)
-{
-    if(lhs >= rhs)
-    {
-        return lhs;
-    }
-    else
-    {
-        return rhs;
-    }
-}
-
 int main(int argc, char **argv)
 {
     int listenfd, connfd, udpfd, nready, maxfdp1;
